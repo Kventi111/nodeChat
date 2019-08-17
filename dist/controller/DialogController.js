@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _user = require("../models/user");
+var _dialog = require('../models/dialog');
 
-var _user2 = _interopRequireDefault(_user);
+var _dialog2 = _interopRequireDefault(_dialog);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,29 +20,36 @@ var UserController = function () {
   }
 
   _createClass(UserController, [{
-    key: "index",
+    key: 'index',
     value: function index(req, res) {
-      var id = req.params.id;
+      var authorId = req.params.id;
 
-      _user2.default.findById(id, function (err, user) {
-        if (err) res.status(404).send("notFound");
+      _dialog2.default.find({ author: authorId }).populate(['author', 'partner']).exec(function (err, dialog) {
+        if (err) return res.status(404).send('dialog not found');
 
-        res.json(user);
+        return res.json(dialog);
       });
     }
   }, {
-    key: "create",
+    key: 'create',
     value: function create(req, res) {
-      var data = req.body;
-      var user = new _user2.default(data);
+      var authorId = "5d5879384a754d8587fce05b";
 
-      user.save().then(function (user) {
-        return console.log("user " + user.fullname + " created");
+      var postData = {
+        author: authorId,
+        partner: req.body.partnerId,
+        lastMessage: req.body.lastMessage
+      };
+
+      var dialog = new _dialog2.default(postData);
+
+      dialog.save().then(function (dialog) {
+        return console.log('dialog ' + dialog._id + ' created');
       }).catch(function (err) {
         return res.status(400).json(err);
       });
 
-      return res.send("Запись добавленна");
+      return res.status(200).send('Диалог создан');
     }
   }]);
 
