@@ -22,23 +22,24 @@ var UserController = function () {
   _createClass(UserController, [{
     key: "index",
     value: function index(req, res) {
-      console.log(req);
-      _user2.default.find().then(function (err, post) {
-        if (err) {
-          res.send(err);
-        }
+      var id = req.params.id;
 
-        res.json(posts);
+      _user2.default.findById(id, function (err, user) {
+        if (err) res.status(404).send("notFound");
+
+        res.json(user);
       });
     }
   }, {
     key: "create",
     value: function create(req, res) {
       var data = req.body;
+      var user = new PostModel(data);
 
-      var post = new PostModel(data);
-      post.save().then(function () {
-        console.log("ok");
+      user.save().then(function (user) {
+        return console.log("user " + user.fullname + " created");
+      }).catch(function (err) {
+        return res.status(400).json(err);
       });
 
       return res.send("Запись добавленна");

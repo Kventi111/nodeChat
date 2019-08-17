@@ -31,7 +31,7 @@ app.use(_bodyParser2.default.json());
 
 _mongoose2.default.connect("mongodb://localhost/chat");
 
-app.get("/user", User.index);
+app.get("/user/:id", User.index);
 
 app.listen(3333, function () {
   console.log("server it`s work!");

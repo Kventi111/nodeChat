@@ -13,6 +13,6 @@ app.use(bodyParser.json())
 
 mongoose.connect("mongodb://localhost/chat")
 
-app.get("/user",User.index)
+app.get("/user/:id",User.index)
 
 app.listen(3333,() => {console.log("server it`s work!")})

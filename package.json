@@ -1,4 +1,10 @@
 {
+  "name": "react-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
@@ -16,7 +22,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d dist",
     "watch": "babel src -d dist -w",
-    "start": "node dist/index.js",
-    "dev": "yarn build && yarn start"
+    "start": "nodemon dist/index.js",
+    "dev": "yarn start && yarn watch"
   }
 }
