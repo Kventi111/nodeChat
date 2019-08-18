@@ -1,4 +1,5 @@
 import UserModel from "../models/user"
+import createJWToken from '../utils/createJWTToken'
 
 class UserController {
 
@@ -22,6 +23,34 @@ class UserController {
   
     return res.send("Запись добавленна")
   }  
+
+  login(req, res) {
+    const postData = {
+      email: req.body.email,
+      password: req.body.password
+    };
+
+    UserModel.findOne({ email: postData.email }, (err, user) => {
+      if (err || !user) {
+        return res.status(404).json({
+          message: "User not found"
+        });
+      }
+
+      if (postData.password === user.password) {
+        const token = createJWToken(user);
+        res.json({
+          status: "success",
+          token
+        });
+      } else {
+        res.status(403).json({
+          status: "error",
+          message: "Incorrect password or email"
+        });
+      }
+    });
+  };
 }
 
 

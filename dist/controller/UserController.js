@@ -10,6 +10,10 @@ var _user = require("../models/user");
 
 var _user2 = _interopRequireDefault(_user);
 
+var _createJWTToken = require("../utils/createJWTToken");
+
+var _createJWTToken2 = _interopRequireDefault(_createJWTToken);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43,6 +47,35 @@ var UserController = function () {
       });
 
       return res.send("Запись добавленна");
+    }
+  }, {
+    key: "login",
+    value: function login(req, res) {
+      var postData = {
+        email: req.body.email,
+        password: req.body.password
+      };
+
+      _user2.default.findOne({ email: postData.email }, function (err, user) {
+        if (err || !user) {
+          return res.status(404).json({
+            message: "User not found"
+          });
+        }
+
+        if (postData.password === user.password) {
+          var token = (0, _createJWTToken2.default)(user);
+          res.json({
+            status: "success",
+            token: token
+          });
+        } else {
+          res.status(403).json({
+            status: "error",
+            message: "Incorrect password or email"
+          });
+        }
+      });
     }
   }]);
 
