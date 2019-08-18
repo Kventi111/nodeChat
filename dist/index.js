@@ -12,6 +12,12 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _http = require("http");
+
+var _socket = require("socket.io");
+
+var _socket2 = _interopRequireDefault(_socket);
+
 var _dotenv = require("dotenv");
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
@@ -44,13 +50,18 @@ var Dialog = new _DialogController2.default();
 
 var Message = new _MessageController2.default();
 
+_dotenv2.default.config();
+
 var app = (0, _express2.default)();
+var http = (0, _http.createServer)(app);
+var io = (0, _socket2.default)(http);
+
 app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use(_bodyParser2.default.json());
 app.use(_checkToken2.default);
 
-_mongoose2.default.connect("mongodb://localhost/chat");
+_mongoose2.default.connect("mongodb://localhost/chat", { useNewUrlParser: true });
 
 app.get("/user/:id", User.index);
 app.post("/user/create", User.create);
@@ -62,8 +73,11 @@ app.post('/dialog/create', Dialog.create);
 app.get('/message/:id', Message.index);
 app.post('/message/create', Message.create);
 
-_dotenv2.default.config();
+io.on('connection', function (socket) {
+  console.log('CONNECTED');
+  socket.emit('test command', '123ij123kjkl');
+});
 
-app.listen(3333, function () {
+http.listen(process.env.PORT, function () {
   console.log("server it`s work!");
 });
