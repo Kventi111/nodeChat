@@ -74,8 +74,7 @@ app.get('/message/:id', Message.index);
 app.post('/message/create', Message.create);
 
 io.on('connection', function (socket) {
-  console.log('CONNECTED');
-  socket.emit('test command', '123ij123kjkl');
+  socket.emit('test command', "user " + socket.id + " connection");
 });
 
 http.listen(process.env.PORT, function () {

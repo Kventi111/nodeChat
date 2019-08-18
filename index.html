@@ -11,10 +11,9 @@
   <script>
     var socket = io('http://localhost:3333')
 
-    socket.on('connection',function(socket) {
-      socket.on('test command',function(msg) {
-        console.log("message: " + msg);
-      })
+    window.socket = socket
+    socket.on('test command',function(msg) {
+      console.log("message: " + msg);
     })
   </script>
 </body>

@@ -43,8 +43,7 @@ app.post('/message/create',Message.create)
 
 
 io.on('connection',function(socket) {
-  console.log('CONNECTED');
-  socket.emit('test command', '123ij123kjkl')
+  socket.emit('test command', `user ${socket.id} connection`)
 })
 
 http.listen(process.env.PORT,() => {console.log("server it`s work!")})
