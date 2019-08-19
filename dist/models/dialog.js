@@ -3,12 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _mongoose = require("mongoose");
+var _mongoose = _interopRequireWildcard(require("mongoose"));
 
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 var DialogSchema = new _mongoose.Schema({
   author: {
@@ -21,16 +20,17 @@ var DialogSchema = new _mongoose.Schema({
     ref: "User",
     require: true
   },
-  lastMessage: String
-  // lastMessage : {
+  lastMessage: String // lastMessage : {
   //   type : Schema.Types.ObjectId,
   //   ref  : "Message", 
   //   require : true
   // }
+
 }, {
   timestamp: true
 });
 
-var DialogModel = _mongoose2.default.model("Dialog", DialogSchema);
+var DialogModel = _mongoose["default"].model("Dialog", DialogSchema);
 
-exports.default = DialogModel;
+var _default = DialogModel;
+exports["default"] = _default;

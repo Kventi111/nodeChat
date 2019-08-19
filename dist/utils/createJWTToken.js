@@ -1,23 +1,23 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _jsonwebtoken = require('jsonwebtoken');
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+var _lodash = require("lodash");
 
-var _lodash = require('lodash');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (user) {
-  var token = _jsonwebtoken2.default.sign({
+var _default = function _default(user) {
+  var token = _jsonwebtoken["default"].sign({
     data: (0, _lodash.reduce)(user, function (result, value, key) {
       if (key !== 'password') {
         result[key] = value;
       }
+
       return result;
     }, {})
   }, process.env.JWT_SECRET || '', {
@@ -27,3 +27,5 @@ exports.default = function (user) {
 
   return token;
 };
+
+exports["default"] = _default;

@@ -12,7 +12,7 @@
     var socket = io('http://localhost:3333')
 
     window.socket = socket
-    socket.on('test command',function(msg) {
+    socket.on('SERVER:NEW_MESSAGE',function(msg) {
       console.log("message: " + msg);
     })
   </script>

@@ -1,18 +1,17 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _jsonwebtoken = require('jsonwebtoken');
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (token) {
+var _default = function _default(token) {
   return new Promise(function (resolve, reject) {
-    _jsonwebtoken2.default.verify(token, process.env.JWT_SECRET, function (err, decodeToken) {
+    _jsonwebtoken["default"].verify(token, process.env.JWT_SECRET, function (err, decodeToken) {
       if (err || !decodeToken) {
         return reject(err);
       }
@@ -21,3 +20,5 @@ exports.default = function (token) {
     });
   });
 };
+
+exports["default"] = _default;

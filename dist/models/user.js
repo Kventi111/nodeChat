@@ -3,12 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _mongoose = require("mongoose");
+var _mongoose = _interopRequireWildcard(require("mongoose"));
 
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
 var UserSchema = new _mongoose.Schema({
   fullname: {
@@ -25,7 +24,7 @@ var UserSchema = new _mongoose.Schema({
   },
   confirmed: {
     type: Boolean,
-    default: false
+    "default": false
   },
   last_seen: Date,
   avatar: String
@@ -33,6 +32,7 @@ var UserSchema = new _mongoose.Schema({
   timestamp: true
 });
 
-var UserModel = _mongoose2.default.model("User", UserSchema);
+var UserModel = _mongoose["default"].model("User", UserSchema);
 
-exports.default = UserModel;
+var _default = UserModel;
+exports["default"] = _default;

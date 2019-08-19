@@ -2,6 +2,10 @@ import DialogModel from "../models/dialog"
 
 class UserController {
 
+  constructor(io) {
+    this.io = io
+  }
+
   index(req, res) {
     const authorId = req.params.id;
 
@@ -15,8 +19,8 @@ class UserController {
       })
   }
 
-  create(req,res) {
-    const authorId = "5d5879384a754d8587fce05b";
+  create = (req,res) => {
+    const authorId = req.user._id;
     
     const postData = {
       author : authorId,
@@ -27,10 +31,13 @@ class UserController {
     const dialog = new DialogModel(postData)
 
     dialog.save()
-      .then(dialog => console.log(`dialog ${dialog._id} created`))
+      .then(dialogObj => {
+        // TODO - сделать персонализированную отправку
+        this.io.emit("SERVER:NEW_MESSAGE",dialogObj._id)
+
+        return res.status(200).json(dialogObj)
+      })
       .catch(err => res.status(400).json(err))
-  
-    return res.status(200).send('Диалог создан')
   }
 }
 
