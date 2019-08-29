@@ -20,12 +20,10 @@ var DialogSchema = new _mongoose.Schema({
     ref: "User",
     require: true
   },
-  lastMessage: String // lastMessage : {
-  //   type : Schema.Types.ObjectId,
-  //   ref  : "Message", 
-  //   require : true
-  // }
-
+  lastMessage: {
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "Message"
+  }
 }, {
   timestamp: true
 });

@@ -12,12 +12,10 @@ const DialogSchema = new Schema({
     ref  : "User", 
     require : true
   },
-  lastMessage : String,
-  // lastMessage : {
-  //   type : Schema.Types.ObjectId,
-  //   ref  : "Message", 
-  //   require : true
-  // }
+  lastMessage: { 
+    type: Schema.Types.ObjectId, 
+    ref: "Message" 
+  }
 }, {
   timestamp : true
 })

@@ -20,7 +20,8 @@ var UserSchema = new _mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   confirmed: {
     type: Boolean,

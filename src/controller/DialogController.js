@@ -1,5 +1,6 @@
 import DialogModel from "../models/dialog"
 
+
 class UserController {
 
   constructor(io) {
@@ -7,11 +8,19 @@ class UserController {
   }
 
   index(req, res) {
-    const authorId = req.params.id;
+    const authorId = req.user._id;
 
-    DialogModel
-      .find({ author : authorId })
+    console.log(authorId);
+    
+    DialogModel.find()
+      .or([{ author: authorId }, { partner: authorId }])
       .populate(['author','partner'])
+      .populate({
+        path: "lastMessage",
+        populate: {
+          path: "user"
+        }
+      })
       .exec(function(err,dialog) {
         if (err) return res.status(404).send('dialog not found')
 

@@ -9,12 +9,15 @@ const MessageSchema = new Schema({
     type : Boolean, 
     defaul : false
   },
-  user : {
-    type : String, 
-    require : true
+  user: { 
+    type: Schema.Types.ObjectId, 
+    ref: "User", 
+    require: true 
   },
   dialog : {
-    type : Schema.Types.ObjectId, ref : "Dialog", require : true
+    type : Schema.Types.ObjectId, 
+    ref : "Dialog", 
+    require : true
   }
 }, {
   timestamp : true

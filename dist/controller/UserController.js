@@ -27,9 +27,9 @@ function () {
   _createClass(UserController, [{
     key: "index",
     value: function index(req, res) {
-      var id = req.params.id;
+      var userId = req.user._id;
 
-      _user["default"].findById(id, function (err, user) {
+      _user["default"].findById(userId, function (err, user) {
         if (err) res.status(404).send("notFound");
         res.json(user);
       });
@@ -40,11 +40,13 @@ function () {
       var data = req.body;
       var user = new _user["default"](data);
       user.save().then(function (user) {
-        return console.log("user ".concat(user.fullname, " created"));
+        return res.json({
+          status: "success",
+          token: (0, _createJWTToken["default"])(user)
+        });
       })["catch"](function (err) {
         return res.status(400).json(err);
       });
-      return res.send("Запись добавленна");
     }
   }, {
     key: "login",
@@ -58,8 +60,8 @@ function () {
         email: postData.email
       }, function (err, user) {
         if (err || !user) {
-          return res.status(404).json({
-            message: "User not found"
+          return res.json({
+            message: "Incorrect password or email"
           });
         }
 
@@ -70,7 +72,7 @@ function () {
             token: token
           });
         } else {
-          res.status(403).json({
+          res.json({
             status: "error",
             message: "Incorrect password or email"
           });

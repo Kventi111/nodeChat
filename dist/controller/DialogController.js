@@ -49,11 +49,19 @@ function () {
   _createClass(UserController, [{
     key: "index",
     value: function index(req, res) {
-      var authorId = req.params.id;
+      var authorId = req.user._id;
+      console.log(authorId);
 
-      _dialog["default"].find({
+      _dialog["default"].find().or([{
         author: authorId
-      }).populate(['author', 'partner']).exec(function (err, dialog) {
+      }, {
+        partner: authorId
+      }]).populate(['author', 'partner']).populate({
+        path: "lastMessage",
+        populate: {
+          path: "user"
+        }
+      }).exec(function (err, dialog) {
         if (err) return res.status(404).send('dialog not found');
         return res.json(dialog);
       });

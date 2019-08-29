@@ -44,10 +44,10 @@ _mongoose["default"].connect("mongodb://localhost/chat", {
   useNewUrlParser: true
 });
 
-app.get("/user/:id", User.index);
-app.post("/user/create", User.create);
+app.get("/user", User.index);
+app.post("/user/signup", User.create);
 app.post("/user/signin", User.login);
-app.get('/dialog/:id', Dialog.index);
+app.get('/dialogs', Dialog.index);
 app.post('/dialog/create', Dialog.create);
 app.get('/message/:id', Message.index);
 app.post('/message/create', Message.create);

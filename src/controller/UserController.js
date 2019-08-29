@@ -4,11 +4,11 @@ import createJWToken from '../utils/createJWTToken'
 class UserController {
 
   index(req, res) {
-    const id = req.params.id;
+    const userId = req.user._id;
 
-    UserModel.findById(id,function(err,user) {
+    UserModel.findById(userId,function(err,user) {
       if (err) res.status(404).send("notFound")
-    
+      
       res.json(user)
     })
   }
@@ -18,10 +18,13 @@ class UserController {
     const user = new UserModel(data)
 
     user.save()
-      .then(user => console.log(`user ${user.fullname} created`))
+      .then(user => {
+        return res.json({
+          status: "success",
+          token : createJWToken(user)
+        });
+      })
       .catch(err => res.status(400).json(err))
-  
-    return res.send("Запись добавленна")
   }  
 
   login(req, res) {
@@ -32,11 +35,11 @@ class UserController {
 
     UserModel.findOne({ email: postData.email }, (err, user) => {
       if (err || !user) {
-        return res.status(404).json({
-          message: "User not found"
+        return res.json({
+          message: "Incorrect password or email"
         });
       }
-
+      
       if (postData.password === user.password) {
         const token = createJWToken(user);
         res.json({
@@ -44,7 +47,7 @@ class UserController {
           token
         });
       } else {
-        res.status(403).json({
+        res.json({
           status: "error",
           message: "Incorrect password or email"
         });

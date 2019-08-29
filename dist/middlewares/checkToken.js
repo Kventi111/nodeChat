@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _verifyJWTToken = _interopRequireDefault(require("../utils/verifyJWTToken"));
 
+var _user = _interopRequireDefault(require("../models/user"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _default = function _default(req, res, next) {

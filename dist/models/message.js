@@ -19,7 +19,8 @@ var MessageSchema = new _mongoose.Schema({
     defaul: false
   },
   user: {
-    type: String,
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "User",
     require: true
   },
   dialog: {

@@ -1,4 +1,6 @@
 import verifyJWTToken from "../utils/verifyJWTToken";
+import UserModel from "../models/user"
+
 
 export default (req, res, next) => {
   if (
@@ -10,7 +12,6 @@ export default (req, res, next) => {
   }
 
   const token = req.headers.token;
-
   verifyJWTToken(token)
     .then((user) => {
       req.user = user.data._doc;
