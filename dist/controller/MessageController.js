@@ -15,11 +15,34 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var MessageController =
 /*#__PURE__*/
 function () {
-  function MessageController() {
+  function MessageController(io) {
+    var _this = this;
+
     _classCallCheck(this, MessageController);
+
+    _defineProperty(this, "create", function (req, res) {
+      var userId = req.user._id;
+      var postData = {
+        user: userId,
+        text: req.body.text,
+        dialog: req.body.dialog
+      };
+      var message = new _message["default"](postData);
+      message.save();
+
+      _this.io.emit('NEW:MESSAGE', message);
+
+      return res.status(200).json({
+        text: "Запись добавленна"
+      });
+    });
+
+    this.io = io;
   }
 
   _createClass(MessageController, [{
@@ -33,23 +56,6 @@ function () {
         if (err) return res.status(404).send('messages not found');
         return res.status(200).json(message);
       });
-    }
-  }, {
-    key: "create",
-    value: function create(req, res) {
-      var userId = "5d5879384a754d8587fce05b";
-      var postData = {
-        user: userId,
-        text: req.body.text,
-        dialog: req.body.dialog
-      };
-      var message = new _message["default"](postData);
-      message.save().then(function (message) {
-        return console.log("message ".concat(message._id, " created"));
-      })["catch"](function (err) {
-        return res.status(400).json(err);
-      });
-      return res.status(200).send("Запись добавленна");
     }
   }]);
 

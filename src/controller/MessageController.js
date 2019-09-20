@@ -2,6 +2,10 @@ import MessageModel from "../models/message"
 
 class MessageController {
 
+  constructor(io) {
+    this.io = io
+  }
+
   index(req, res) {
     const dialogId = req.params.id;
 
@@ -15,8 +19,8 @@ class MessageController {
       })
   }
 
-  create(req,res) {
-    const userId = "5d5879384a754d8587fce05b";
+  create = (req,res) => {
+    const userId = req.user._id;
 
     const postData = {
       user : userId,
@@ -24,13 +28,13 @@ class MessageController {
       dialog : req.body.dialog
     }
 
+
     const message = new MessageModel(postData)
 
     message.save()
-      .then(message => console.log(`message ${message._id} created`))
-      .catch(err => res.status(400).json(err))
-  
-    return res.status(200).send("Запись добавленна")
+
+    this.io.emit('NEW:MESSAGE', message)    
+    return res.status(200).json({ text : "Запись добавленна" })
   }  
 }
 

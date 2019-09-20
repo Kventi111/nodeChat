@@ -50,7 +50,6 @@ function () {
     key: "index",
     value: function index(req, res) {
       var authorId = req.user._id;
-      console.log(authorId);
 
       _dialog["default"].find().or([{
         author: authorId

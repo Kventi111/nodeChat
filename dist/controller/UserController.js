@@ -29,9 +29,12 @@ function () {
     value: function index(req, res) {
       var userId = req.user._id;
 
-      _user["default"].findById(userId, function (err, user) {
-        if (err) res.status(404).send("notFound");
-        res.json(user);
+      _user["default"].findById(userId, {
+        password: 0
+      }, function (err, user) {
+        // console.log(err)
+        // if (!err) res.status(404).send("notFound")
+        res.status(200).json(user);
       });
     }
   }, {

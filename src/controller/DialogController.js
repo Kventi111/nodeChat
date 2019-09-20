@@ -10,8 +10,6 @@ class UserController {
   index(req, res) {
     const authorId = req.user._id;
 
-    console.log(authorId);
-    
     DialogModel.find()
       .or([{ author: authorId }, { partner: authorId }])
       .populate(['author','partner'])

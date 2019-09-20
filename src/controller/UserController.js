@@ -6,10 +6,11 @@ class UserController {
   index(req, res) {
     const userId = req.user._id;
 
-    UserModel.findById(userId,function(err,user) {
-      if (err) res.status(404).send("notFound")
-      
-      res.json(user)
+    UserModel.findById(userId,{ password : 0 },function(err,user) {
+      // console.log(err)
+      // if (!err) res.status(404).send("notFound")
+
+      res.status(200).json(user)
     })
   }
 
@@ -41,7 +42,7 @@ class UserController {
       }
       
       if (postData.password === user.password) {
-        const token = createJWToken(user);
+        const token = createJWToken(user);        
         res.json({
           status: "success",
           token
